@@ -3,7 +3,7 @@ import os
 # import playsound
 # import speech_recognition as sr
 import time
-import wikipedia
+# import wikipedia
 import datetime
 import webbrowser
 import requests
@@ -14,9 +14,9 @@ from time import strftime
 from youtube_search import YoutubeSearch
 
 # Khai báo các biến cho quá trình làm trợ lý ảo
-wikipedia.set_lang('vi')
-language = 'vi'
-path = ChromeDriverManager().install()
+# wikipedia.set_lang('vi')
+# language = 'vi'
+# path = ChromeDriverManager().install()
 
 # Text - to - speech: Chuyển đổi văn bản thành giọng nói
 # def speak(text):
