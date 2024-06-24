@@ -7,8 +7,8 @@ import time
 import datetime
 import webbrowser
 import requests
-from selenium import webdriver
-from webdriver_manager.chrome import ChromeDriverManager
+# from selenium import webdriver
+# from webdriver_manager.chrome import ChromeDriverManager
 from time import strftime
 # from gtts import gTTS
 from youtube_search import YoutubeSearch
@@ -54,8 +54,8 @@ def assistant():
                 hello(name)
             elif "giờ" in command or "ngày" in command:
                 get_time(command)
-            elif 'mở google và tìm kiếm' in command:
-                open_google_and_search(command)
+            # elif 'mở google và tìm kiếm' in command:
+            #     open_google_and_search(command)
             elif "thời tiết" in command:
                 current_weather()
             elif "chơi nhạc" in command:
@@ -89,23 +89,22 @@ def get_time(text):
     if "giờ" in text:
         st.write(f'Bây giờ là {now.hour} giờ {now.minute} phút {now.second} giây')
     elif "ngày" in text:
-        speak(f"Hôm nay là ngày {now.day} tháng {now.month} năm {now.year}")
+        st.write(f"Hôm nay là ngày {now.day} tháng {now.month} năm {now.year}")
     else:
-        speak("Bot chưa hiểu ý của bạn. Bạn nói lại được không?")
+        st.write("Bot chưa hiểu ý của bạn. Bạn nói lại được không?")
 
 
 
-        speak("Trang web bạn yêu cầu đã được mở.")
 
-def open_google_and_search(text):
-    st.write('Bạn muốn tìm kiếm gì')
-    query = st.text_input("Nhập từ khóa tìm kiếm trên Google:")
-    query = query.replace('', '+')
-    if query:
-        browser = webdriver.Chrome()
-        for i in range(1):
-         e = browser.get("https://www.google.com/search?q="+ query + "&start" + str(i))
-        time.sleep(15) 
+# def open_google_and_search(text):
+#     st.write('Bạn muốn tìm kiếm gì')
+#     query = st.text_input("Nhập từ khóa tìm kiếm trên Google:")
+#     query = query.replace('', '+')
+#     if query:
+#         browser = webdriver.Chrome()
+#         for i in range(1):
+#          e = browser.get("https://www.google.com/search?q="+ query + "&start" + str(i))
+#         time.sleep(15) 
        
 
 
