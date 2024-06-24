@@ -1,7 +1,7 @@
 import streamlit as st
 import os
-import playsound
-import speech_recognition as sr
+# import playsound
+# import speech_recognition as sr
 import time
 import wikipedia
 import datetime
@@ -10,7 +10,7 @@ import requests
 from selenium import webdriver
 from webdriver_manager.chrome import ChromeDriverManager
 from time import strftime
-from gtts import gTTS
+# from gtts import gTTS
 from youtube_search import YoutubeSearch
 
 # Khai báo các biến cho quá trình làm trợ lý ảo
@@ -19,11 +19,11 @@ language = 'vi'
 path = ChromeDriverManager().install()
 
 # Text - to - speech: Chuyển đổi văn bản thành giọng nói
-def speak(text):
-    tts = gTTS(text=text, lang=language, slow=False)
-    tts.save("sound.mp3")
-    playsound.playsound("sound.mp3", False)
-    os.remove("sound.mp3")
+# def speak(text):
+#     tts = gTTS(text=text, lang=language, slow=False)
+#     tts.save("sound.mp3")
+#     playsound.playsound("sound.mp3", False)
+#     os.remove("sound.mp3")
 
 # Streamlit interface
 st.title("Trợ Lý Ảo Của SY PRO")
@@ -80,14 +80,14 @@ def hello(name):
     if day_time < 12:
         speak(f"Chào buổi sáng bạn {name}. Chúc bạn một ngày tốt lành.")
     elif 12 <= day_time < 18:
-        speak(f"Chào buổi chiều bạn {name}. Bạn đã dự định gì cho chiều nay chưa.")
+        st.write(f"Chào buổi chiều bạn {name}. Bạn đã dự định gì cho chiều nay chưa.")
     else:
-        speak(f"Chào buổi tối bạn {name}. Bạn đã ăn tối chưa nhỉ.")
+        st.write(f"Chào buổi tối bạn {name}. Bạn đã ăn tối chưa nhỉ.")
 
 def get_time(text):
     now = datetime.datetime.now()
     if "giờ" in text:
-        speak(f'Bây giờ là {now.hour} giờ {now.minute} phút {now.second} giây')
+        st.write(f'Bây giờ là {now.hour} giờ {now.minute} phút {now.second} giây')
     elif "ngày" in text:
         speak(f"Hôm nay là ngày {now.day} tháng {now.month} năm {now.year}")
     else:
@@ -98,7 +98,7 @@ def get_time(text):
         speak("Trang web bạn yêu cầu đã được mở.")
 
 def open_google_and_search(text):
-    speak('Bạn muốn tìm kiếm gì')
+    st.write('Bạn muốn tìm kiếm gì')
     query = st.text_input("Nhập từ khóa tìm kiếm trên Google:")
     query = query.replace('', '+')
     if query:
@@ -110,7 +110,7 @@ def open_google_and_search(text):
 
 
 def current_weather():
-    speak("Bạn muốn xem thời tiết ở đâu ạ.")
+    st.write("Bạn muốn xem thời tiết ở đâu ạ.")
     city = st.text_input("Thành phố:")
     if city:
         api_key = "fe8d8c65cf345889139d8e545f57819a"
@@ -137,9 +137,9 @@ def current_weather():
             Áp suất không khí là {current_pressure} héc tơ Pascal
             Độ ẩm là {current_humidity}%
             Trời hôm nay quang mây. Dự báo mưa rải rác ở một số nơi."""
-            speak(content)
+            st.write(content)
         else:
-            speak("Không tìm thấy địa chỉ của bạn")
+            st.write("Không tìm thấy địa chỉ của bạn")
 
 def play_song():
     speak('Xin mời bạn chọn tên bài hát')
@@ -157,19 +157,19 @@ def tell_me_about():
         st.write("Bạn cần Bot đọc gì ạ")
         text = st.text_input("Chủ đề:")
         contents = wikipedia.summary(text).split('\n')
-        speak(contents[0])
+        st.write(contents[0])
         for content in contents[1:]:
             # speak("Bạn muốn nghe thêm không?")
             ans = st.text_input("Trả lời (có/không):")
             if 'có' not in ans:
                 break
-            speak(content)
-        speak('Cảm ơn bạn đã lắng nghe!!!')
+            st.write(content)
+        st.write('Cảm ơn bạn đã lắng nghe!!!')
     except:
-        speak("Bot  định nghĩa được thuật ngữ của bạn. Bạn nhập vào chủ đề được không?")
+        st.write("Bot  định nghĩa được thuật ngữ của bạn. Bạn nhập vào chủ đề được không?")
 
 def introduce():
-    speak("Xin chào mọi người. Mình là trợ lý ảo AI do LÊ TÙNG SỸ tạo ra. Mình có thể giúp bạn làm nhiều việc lắm đó. Bạn có muốn tìm hiểu không?")
+    st.write("Xin chào mọi người. Mình là trợ lý ảo AI do LÊ TÙNG SỸ tạo ra. Mình có thể giúp bạn làm nhiều việc lắm đó. Bạn có muốn tìm hiểu không?")
 
 if __name__ == "__main__":
     assistant()
