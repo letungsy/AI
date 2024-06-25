@@ -62,9 +62,9 @@ def assistant():
     name = st.text_input("Tên bạn",placeholder="Mời bạn nhập tên:",label_visibility="visible")
     # name = speak(f"GPT")
     if name:
-       engine = pyttsx3.init()
-       engine.say(name)
-       engine.runAndWait()
+        # engine = pyttsx3.init()
+        # engine.say(name)
+        # engine.runAndWait()
         st.write(f"Chào bạn {name}")
         st.write("Bạn cần Bot matinh có thể giúp gì ạ?")
         contact = """<h6>Bot chỉ giúp bạn khi bạn nhập đúng câu lệnh sau vào khung nhập lệnh của bạn</h6>
