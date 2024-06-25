@@ -60,7 +60,7 @@ def speak(text):
     engine.runAndWait()
 def assistant():
     # name = st.text_input("Tên bạn",placeholder="Mời bạn nhập tên:",label_visibility="visible")
-    name = speak("GPT")
+    name = speak(f"GPT")
     if name:
         st.write(f"Chào bạn {name}")
         st.write("Bạn cần Bot matinh có thể giúp gì ạ?")
