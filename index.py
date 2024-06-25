@@ -40,7 +40,7 @@ def GPT():
             model=model,
             prompt=prompt,
             # temperature=temp,
-            max_output_tokens=20000
+            max_output_tokens=1024
         )
 
         st.write("")
