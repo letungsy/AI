@@ -1,49 +1,52 @@
 import streamlit as st
 import os
-# import playsound
-# import speech_recognition as sr
+import playsound
+import speech_recognition as sr
 import time
-# import wikipedia
+import wikipedia
 import datetime
 import webbrowser
 import requests
-# from selenium import webdriver
-# from webdriver_manager.chrome import ChromeDriverManager
+from selenium import webdriver
+from webdriver_manager.chrome import ChromeDriverManager
 from time import strftime
-# from gtts import gTTS
+from gtts import gTTS
 from youtube_search import YoutubeSearch
 
 # Khai báo các biến cho quá trình làm trợ lý ảo
-# wikipedia.set_lang('vi')
-# language = 'vi'
-# path = ChromeDriverManager().install()
-
+wikipedia.set_lang('vi')
+language = 'vi'
+path = ChromeDriverManager().install()
+st.header(":mailbox: Trợ Lý Ảo Của SỸ PRO 🙉 🙁 😝")
+contact_form = """
+<h2>Xin chào! Tôi là matinh, trợ lý ảo của bạn. Hãy nhập lệnh bạn muốn tôi thực hiện:</h2>
+<h3>Xin chào, bạn tên là gì nhỉ?</h3>
+"""
+st.markdown(contact_form, unsafe_allow_html=True)
 # Text - to - speech: Chuyển đổi văn bản thành giọng nói
-# def speak(text):
-#     tts = gTTS(text=text, lang=language, slow=False)
-#     tts.save("sound.mp3")
-#     playsound.playsound("sound.mp3", False)
-#     os.remove("sound.mp3")
-
-# Streamlit interface
-st.title("Trợ Lý Ảo Của SY PRO")
-st.write("Xin chào! Tôi là matinh, trợ lý ảo của bạn. Hãy nhập lệnh bạn muốn tôi thực hiện:")
-
+def speak(text):
+    tts = gTTS(text=text, lang=language, slow=False)
+    tts.save("sound.mp3")
+    playsound.playsound("sound.mp3", False)
+    os.remove("sound.mp3")
 def assistant():
-    st.write("Xin chào, bạn tên là gì nhỉ?")
-    name = st.text_input("Tên của bạn là gì?")
+    name = st.text_input("")
     if name:
         st.write(f"Chào bạn {name}")
         st.write("Bạn cần Bot matinh có thể giúp gì ạ?")
-        st.write("""Bot chỉ giúp bạn khi bạn nhập đúng câu lệnh sau vào khung nhập lệnh của bạn\n
-                 1.chào\n
-                 2.giờ
-                 3.ngày
-                 4.thời tiết
-                 5.chơi nhạc
-                 6.mở google và tìm kiếm
-                 7.bách khoa toàn thư
-                 8.giới thiệu""")
+        contact = """<h6>Bot chỉ giúp bạn khi bạn nhập đúng câu lệnh sau vào khung nhập lệnh của bạn</h6>
+<h6>1.chào</h6>
+<h6>2.giờ</h6>
+<h6>3.ngày</h6>
+<h6>4.thời tiết</h6>
+<h6>5.chơi nhạc</h6>
+<h6>6.mở google và tìm kiếm</h6>
+<h6>7.bách khoa toàn thư</h6>
+<h6>8.giới thiệu</h6>
+<h6>9.có thể làm gì</h6>
+<h6>10.dừng</h6>
+"""
+        st.markdown(contact, unsafe_allow_html=True)
         command = st.text_input("Nhập lệnh của bạn:")
         if command:
             if "dừng" in command or "tạm biệt" in command or "chào robot" in command or "ngủ thôi" in command:
@@ -54,8 +57,8 @@ def assistant():
                 hello(name)
             elif "giờ" in command or "ngày" in command:
                 get_time(command)
-            # elif 'mở google và tìm kiếm' in command:
-            #     open_google_and_search(command)
+            elif 'mở google và tìm kiếm' in command:
+                open_google_and_search(command)
             elif "thời tiết" in command:
                 current_weather()
             elif "chơi nhạc" in command:
@@ -66,50 +69,58 @@ def assistant():
                 introduce()
 
 def help_me():
-    st.write("""Bot có thể giúp bạn thực hiện các câu lệnh sau đây:
-    1. Chào hỏi\n
-    2. Hiển thị giờ\n
-    3. Hiển thị ngày\n
-    4. Tìm kiếm trên Google\n
-    5. Dự báo thời tiết\n
-    6. Mở video nhạc\n
-    7. Kể bạn biết về thế giới """)
+  contact1 = """<h6>Bot có thể giúp bạn thực hiện các câu lệnh sau đây:</h6>
+<h6>1.Chào hỏi</h6>
+<h6>2.Hiển thị giờ</h6>
+<h6>3.Hiển thị ngày</h6>
+<h6>4.Tìm kiếm trên Google</h6>
+<h6>5.chơi nhạc</h6>
+<h6>6.Dự báo thời tiết</h6>
+<h6>7.Kể bạn biết về thế giới</h6>
+"""
+  st.markdown(contact1, unsafe_allow_html=True)
 
 def hello(name):
     day_time = int(strftime('%H'))
     if day_time < 12:
         speak(f"Chào buổi sáng bạn {name}. Chúc bạn một ngày tốt lành.")
+        st.write(f"Chào buổi sáng bạn {name}. Chúc bạn một ngày tốt lành.")
     elif 12 <= day_time < 18:
+        speak(f"Chào buổi chiều bạn {name}. Bạn đã dự định gì cho chiều nay chưa.")
         st.write(f"Chào buổi chiều bạn {name}. Bạn đã dự định gì cho chiều nay chưa.")
     else:
+        speak(f"Chào buổi tối bạn {name}. Bạn đã ăn tối chưa nhỉ.")
         st.write(f"Chào buổi tối bạn {name}. Bạn đã ăn tối chưa nhỉ.")
 
 def get_time(text):
     now = datetime.datetime.now()
     if "giờ" in text:
+        speak(f'Bây giờ là {now.hour} giờ {now.minute} phút {now.second} giây')
         st.write(f'Bây giờ là {now.hour} giờ {now.minute} phút {now.second} giây')
     elif "ngày" in text:
+        speak(f"Hôm nay là ngày {now.day} tháng {now.month} năm {now.year}")
         st.write(f"Hôm nay là ngày {now.day} tháng {now.month} năm {now.year}")
     else:
+        speak("Bot chưa hiểu ý của bạn. Bạn nói lại được không?")
         st.write("Bot chưa hiểu ý của bạn. Bạn nói lại được không?")
 
 
-
-
-# def open_google_and_search(text):
-#     st.write('Bạn muốn tìm kiếm gì')
-#     query = st.text_input("Nhập từ khóa tìm kiếm trên Google:")
-#     query = query.replace('', '+')
-#     if query:
-#         browser = webdriver.Chrome()
-#         for i in range(1):
-#          e = browser.get("https://www.google.com/search?q="+ query + "&start" + str(i))
-#         time.sleep(15) 
+def open_google_and_search(text):
+    speak('Bạn muốn tìm kiếm gì')
+    st.write('Bạn muốn tìm kiếm gi')
+    query = st.text_input("Nhập từ khóa tìm kiếm trên Google:")
+    query = query.replace('', '+')
+    if query:
+        browser = webdriver.Chrome()
+        for i in range(1):
+         e = browser.get("https://www.google.com/search?q="+ query + "&start" + str(i))
+        time.sleep(15) 
        
 
 
 def current_weather():
-    st.write("Bạn muốn xem thời tiết ở đâu ạ.")
+    speak("Bạn muốn xem thời tiết ở đâu ạ.")
+    st.write("Bạn muốn xem thời tiết ở đâu ạ")
     city = st.text_input("Thành phố:")
     if city:
         api_key = "fe8d8c65cf345889139d8e545f57819a"
@@ -136,9 +147,10 @@ def current_weather():
             Áp suất không khí là {current_pressure} héc tơ Pascal
             Độ ẩm là {current_humidity}%
             Trời hôm nay quang mây. Dự báo mưa rải rác ở một số nơi."""
+            speak(content)
             st.write(content)
         else:
-            st.write("Không tìm thấy địa chỉ của bạn")
+            speak("Không tìm thấy địa chỉ của bạn")
 
 def play_song():
     speak('Xin mời bạn chọn tên bài hát')
@@ -156,19 +168,21 @@ def tell_me_about():
         st.write("Bạn cần Bot đọc gì ạ")
         text = st.text_input("Chủ đề:")
         contents = wikipedia.summary(text).split('\n')
+        speak(contents[0])
         st.write(contents[0])
         for content in contents[1:]:
             # speak("Bạn muốn nghe thêm không?")
             ans = st.text_input("Trả lời (có/không):")
             if 'có' not in ans:
                 break
+            speak(content)
             st.write(content)
-        st.write('Cảm ơn bạn đã lắng nghe!!!')
+        speak('Cảm ơn bạn đã lắng nghe!!!')
     except:
-        st.write("Bot  định nghĩa được thuật ngữ của bạn. Bạn nhập vào chủ đề được không?")
+        speak("Bot  định nghĩa được thuật ngữ của bạn. Bạn nhập vào chủ đề được không?")
 
 def introduce():
-    st.write("Xin chào mọi người. Mình là trợ lý ảo AI do LÊ TÙNG SỸ tạo ra. Mình có thể giúp bạn làm nhiều việc lắm đó. Bạn có muốn tìm hiểu không?")
-
+    speak("Xin chào mọi người. Mình là trợ lý ảo AI do LÊ TÙNG SỸ tạo ra. Mình có thể giúp bạn làm nhiều việc lắm đó. Bạn có muốn tìm hiểu không?")
+    st.write("Xin chào mọi người. Mình là trợ lý ảo AI do LÊ TÙNG SỸ tạo ra. Mình có thể giúp bạn làm nhiều việc lắm đó. Bạn có muốn tìm hiểu không")
 if __name__ == "__main__":
     assistant()
