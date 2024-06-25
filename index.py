@@ -48,21 +48,23 @@ def GPT():
         st.write("")
 
         st.markdown(response.result, unsafe_allow_html=False, help=None)
-def speak(text):
-    engine = pyttsx3.init()
-    voices = engine.getProperty('voices')
-    rate = engine.getProperty('rate')
-    volume = engine.getProperty('volume')
-    engine.setProperty('volume', volume - 0.0)  # tu 0.0 -> 1.0
-    engine.setProperty('rate', rate - 50)
-    engine.setProperty('voice', voices[1].id)
-    engine.say(text)
-    engine.runAndWait()
+# def speak(text):
+#     engine = pyttsx3.init()
+#     voices = engine.getProperty('voices')
+#     rate = engine.getProperty('rate')
+#     volume = engine.getProperty('volume')
+#     engine.setProperty('volume', volume - 0.0)  # tu 0.0 -> 1.0
+#     engine.setProperty('rate', rate - 50)
+#     engine.setProperty('voice', voices[1].id)
+#     engine.say(text)
+#     engine.runAndWait()
 def assistant():
     name = st.text_input("Tên bạn",placeholder="Mời bạn nhập tên:",label_visibility="visible")
     # name = speak(f"GPT")
     if name:
-        speak(name)
+       engine = pyttsx3.init()
+       engine.say(name)
+       engine.runAndWait()
         st.write(f"Chào bạn {name}")
         st.write("Bạn cần Bot matinh có thể giúp gì ạ?")
         contact = """<h6>Bot chỉ giúp bạn khi bạn nhập đúng câu lệnh sau vào khung nhập lệnh của bạn</h6>
