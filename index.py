@@ -2,25 +2,25 @@ import streamlit as st
 import google.generativeai as palm
 from dotenv import load_dotenv
 import os
-import playsound
+import pyttsx3
 import speech_recognition as sr
-import time
+# import time
 import wikipedia
 import datetime
-import webbrowser
+# import webbrowser
 import requests
-from selenium import webdriver
-from webdriver_manager.chrome import ChromeDriverManager
+# from selenium import webdriver
+# from webdriver_manager.chrome import ChromeDriverManager
 from time import strftime
-from gtts import gTTS
-from youtube_search import YoutubeSearch
+# from gtts import gTTS
+# from youtube_search import YoutubeSearch
 load_dotenv()
 API_KEY=os.environ.get("PALM_API_KEY")
 palm.configure(api_key=API_KEY)
 # Khai báo các biến cho quá trình làm trợ lý ảo
 wikipedia.set_lang('vi')
 language = 'vi'
-path = ChromeDriverManager().install()
+# path = ChromeDriverManager().install()
 st.header(":mailbox: Trợ Lý Ảo Của SỸ PRO 🙉 🙁 😝")
 contact_form = """
 <h2>Xin chào! Tôi là matinh, trợ lý ảo của bạn. Hãy nhập lệnh bạn muốn tôi thực hiện:</h2>
@@ -34,14 +34,13 @@ def GPT():
     st.write("")
     prompt = st.text_input("Mòi nhập",placeholder="bạn có thể nhập bất kì gì bằng tiếng anh", label_visibility="visible")
     # temp = st.slider("Temperature", 0.0, 1.0, step=0.05)    #Hyper parameter - range[0-1]
-    if st.button("SEND", use_container_width=True):
+    if st.button("NHẬP VÀO", use_container_width=True):
         model = "models/text-bison-001"    #This is the only model currently available
-
         response = palm.generate_text(
             model=model,
             prompt=prompt,
             # temperature=temp,
-            max_output_tokens=1024
+            max_output_tokens=20000
         )
 
         st.write("")
@@ -50,12 +49,16 @@ def GPT():
 
         st.markdown(response.result, unsafe_allow_html=False, help=None)
 def speak(text):
-    tts = gTTS(text=text, lang=language, slow=False)
-    tts.save("sound.mp3")
-    playsound.playsound("sound.mp3", False)
-    os.remove("sound.mp3")
+    engine = pyttsx3.init()
+    voices = engine.getProperty('voices')
+    rate = engine.getProperty('rate')
+    volume = engine.getProperty('volume')
+    engine.setProperty('volume', volume - 0.0)  # tu 0.0 -> 1.0
+    engine.setProperty('rate', rate - 50)
+    engine.setProperty('voice', voices[1].id)
+    engine.say(text)
+    engine.runAndWait()
 def assistant():
-
     name = st.text_input("Tên bạn",placeholder="Mời bạn nhập tên:",label_visibility="visible")
     if name:
         st.write(f"Chào bạn {name}")
@@ -85,12 +88,12 @@ def assistant():
                 hello(name)
             elif "giờ" in command or "ngày" in command:
                 get_time(command)
-            elif 'mở google và tìm kiếm' in command:
-                open_google_and_search(command)
+            # elif 'mở google và tìm kiếm' in command:
+            #     # open_google_and_search(command)
             elif "thời tiết" in command:
                 current_weather()
-            elif "chơi nhạc" in command:
-                play_song()     
+            # elif "chơi nhạc" in command:
+            #     play_song()     
             elif "bách khoa toàn thư" in command:
                 tell_me_about()
             elif "giới thiệu" in command:
@@ -135,19 +138,17 @@ def get_time(text):
         speak("Bot chưa hiểu ý của bạn. Bạn nói lại được không?")
         st.write("Bot chưa hiểu ý của bạn. Bạn nói lại được không?")
 
-
-def open_google_and_search(text):
-    speak('Bạn muốn tìm kiếm gì')
-    st.write('Bạn muốn tìm kiếm gì')
-    query = st.text_input("Nhập từ khóa",placeholder="Nhập từ khóa tìm kiếm trên Google:",label_visibility="visible")
-    query = query.replace('', '+')
-    if query:
-        browser = webdriver.Chrome()
-        for i in range(1):
-         e = browser.get("https://www.google.com/search?q="+ query + "&start" + str(i))
-        time.sleep(15) 
+# def open_google_and_search(text):
+#     speak('Bạn muốn tìm kiếm gì')
+#     st.write('Bạn muốn tìm kiếm gì')
+#     query = st.text_input("Nhập từ khóa",placeholder="Nhập từ khóa tìm kiếm trên Google:",label_visibility="visible")
+#     query = query.replace('', '+')
+#     if query:
+#         browser = webdriver.Chrome()
+#         for i in range(1):
+#          e = browser.get("https://www.google.com/search?q="+ query + "&start" + str(i))
+#         time.sleep(15) 
        
-
 
 def current_weather():
     speak("Bạn muốn xem thời tiết ở đâu ạ.")
@@ -183,15 +184,14 @@ def current_weather():
         else:
             speak("Không tìm thấy địa chỉ của bạn")
 
-def play_song():
-    speak('Xin mời bạn chọn tên bài hát')
-    mysong = st.text_input("Tên bài hát",placeholder="Tên bài hát:",label_visibility="visible")
-    if mysong:
-        result = YoutubeSearch(mysong, max_results=10).to_dict()
-        url = 'https://www.youtube.com' + result[0]['url_suffix']
-        webbrowser.open(url)
-        speak("Bài hát bạn yêu cầu đã được mở.")
-
+# def play_song():
+#     speak('Xin mời bạn chọn tên bài hát')
+#     mysong = st.text_input("Tên bài hát",placeholder="Tên bài hát:",label_visibility="visible")
+#     if mysong:
+#         result = YoutubeSearch(mysong, max_results=10).to_dict()
+#         url = 'https://www.youtube.com' + result[0]['url_suffix']
+#         webbrowser.open(url)
+#         speak("Bài hát bạn yêu cầu đã được mở.")
 
 
 def tell_me_about():
