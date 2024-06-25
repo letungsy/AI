@@ -3,5 +3,5 @@ google-generativeai
 python-dotenv
 pyttsx3
 SpeechRecognition
-wikipedia-api
+wikipedia
 requests
