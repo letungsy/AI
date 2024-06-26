@@ -30,7 +30,7 @@ def GPT():
     prompt = st.text_input("Mòi nhập",placeholder="bạn có thể nhập bất kì gì bằng tiếng anh", label_visibility="visible")
     # temp = st.slider("Temperature", 0.0, 1.0, step=0.05)    #Hyper parameter - range[0-1]
     if st.button("NHẬP VÀO", use_container_width=True):
-        model = "models/chat-bison-001"    #This is the only model currently available
+        model = "models/embedding-gecko-001"    #This is the only model currently available
         response = palm.generate_text(
             model=model,
             prompt=prompt,
