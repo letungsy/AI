@@ -22,11 +22,6 @@ palm.configure(api_key=API_KEY)
 # language = 'vi'
 # path = ChromeDriverManager().install()
 st.header(":mailbox: Trợ Lý Ảo Của SỸ PRO 🙉 🙁 😝")
-contact_form = """
-<h2>Xin chào! Tôi là matinh, trợ lý ảo của bạn. Hãy nhập lệnh bạn muốn tôi thực hiện:</h2>
-<h3>Xin chào, bạn tên là gì nhỉ?</h3>
-"""
-st.markdown(contact_form, unsafe_allow_html=True)
 # Text - to - speech: Chuyển đổi văn bản thành giọng nói
 def GPT():
     # st.image("./Google_PaLM_Logo.svg.webp", use_column_width=False, width=100)
